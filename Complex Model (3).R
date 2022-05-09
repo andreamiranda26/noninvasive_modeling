@@ -107,4 +107,24 @@ dir.create(folder)
 data = read.table("../Output/outputsummary.csv", header=T, sep=",")
 write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row.names=F, col.names=T, sep=",")
 
+####PLOTS ###
 
+#call file in R
+#data = read.table("../Output/TEST1.csv", header=T, sep="") #this one was used as an example
+data = read.table("../Output/repsums.csv", header=T, sep=",") #this one I actually ran 
+
+#Stationary sampling 
+plot(-100, -100 , xlab="stationary samples loc", ylab="Unique Individual", xlim=c(0, max(data[,10])), ylim=c(0, max(data[,10])))
+cam     = data[,10] #the 7 is a rando # but its the column where cam records are
+gen     = data[,13] #same thing with rando 9 because IDK what column it is because it is not running the code and output
+for(i in unique(data[,1])){  #this allows each rep to be a dif line rather than the lines through it. DO THIS FOR ALL PLOTS
+  sub <- data[data[,1] == i,] #unique replicate
+  points(cam, gen, lwd=2)
+}
+abline(coef = c(0,1), col = "red")
+#points(cam, gen , xlab="camera", ylab="genetic", cex = 1, lty = 1, col="black", lwd=5)
+dev.copy(png, "../Output/camvsgen.png")
+dev.off()
+
+plot(x,y1,type="l",col="red")
+lines(x,y2,col="green")

@@ -106,3 +106,5 @@ dir.create(folder)
 #copy output into folder to use later
 data = read.table("../Output/outputsummary.csv", header=T, sep=",")
 write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row.names=F, col.names=T, sep=",")
+
+

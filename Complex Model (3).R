@@ -1,9 +1,6 @@
 #complex model run for ABM Class Fall 2021
-#setwd("~/GitHub/ABM-Course")
-#setwd("~/Desktop/ABM-Course-main/")#
-
-setwd("~/GitHub/noninvasive_modeling")
-
+#setwd("~/GitHub/noninvasive_modeling/")
+setwd("/Users/jannawilloughby/GDrive/Willoughby lab/furbearer abundance /noninvasive_modeling/")
 
 #to make sure it is the right place you should do session then set up working directory
 directory = getwd()
@@ -15,10 +12,10 @@ landscape.V = 50                         #landscape size
 numindiv.V  = c(50)                      #start off with a number of individuals 
 numsteps.V  = 500                        #number of steps individuals will take 
 move.V      = 0.95                       #Likelihood of individuals moving to the next cell 95% of the time they will move 
-numcamera.V = c(25)                      #number of cameras placed on the landscape
-camerror.V  = c(0.001, 0.01, 0.1, 0.2)   #prop of incorrect IDs using camera
-numgen.V    = c(25)                      #number of genetic samples taken over time
-generror.V  = c(0.001, 0.01, 0.1, 0.2)   #prop of incorrect IDs using genetic samples
+numcamera.V = c(5,25,100,250)            #number of cameras placed on the landscape
+camerror.V  = c(0.001, 0.01, 0.1)        #prop of incorrect IDs using camera
+numgen.V    = c(5,25,100,250)            #number of genetic samples taken over time
+generror.V  = c(0.001, 0.01, 0.1)        #prop of incorrect IDs using genetic samples
 reps        = 100                        #number of replicates for each set of variables
 
 #set up parameter values to run the model with
@@ -107,23 +104,5 @@ folder = gsub(" ", "", paste("../Output/output_", Sys.time(), ""), fixed = TRUE)
 dir.create(folder)
 
 #copy output into folder to use later
-data = read.table("../Output/outputsummary.csv", header=T, sep="")
-write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row.names=F, col.names=T, sep=",")
-
-#PLOT ###
-
-plot(-100, -100 , xlab="camera", ylab="genetic", xlim=c(0, max(data[,10])), ylim=c(0, max(data[,10])))
-cam     = data[,10] #the 7 is a rando # but its the column where cam records are
-gen     = data[,13] #same thing with rando 9 because IDK what column it is because it is not running the code and output
-for(i in unique(data[,1])){  #this allows each rep to be a dif line rather than the lines through it. DO THIS FOR ALL PLOTS
-  sub <- data[data[,1] == i,] #unique replicate
-  points(cam, gen, lwd=2)
-}
-abline(coef = c(0,1), col = "red")
-#points(cam, gen , xlab="camera", ylab="genetic", cex = 1, lty = 1, col="black", lwd=5)
-dev.copy(png, "../Output/camvsgen.png")
-dev.off()
-
-#call file in R
-data = read.table("../Output/TEST1.csv", header=T, sep="")
 data = read.table("../Output/outputsummary.csv", header=T, sep=",")
+write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row.names=F, col.names=T, sep=",")

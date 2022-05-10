@@ -111,7 +111,7 @@ write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row
 
 #call file in R
 #data = read.table("../Output/TEST1.csv", header=T, sep="") #this one was used as an example
-data = read.table("../Output/repsums.csv", header=T, sep=",") #this one I actually ran 
+data = read.table("~/GitHub/noninvasive_modeling/Output/repsums.csv", header=T, sep=",") #this one I actually ran 
 
 #Stationary sampling 
 plot(-100, -100 , xlab="stationary samples loc", ylab="Unique Individual", xlim=c(0, max(data[,10])), ylim=c(0, max(data[,10])))
@@ -126,5 +126,34 @@ abline(coef = c(0,1), col = "red")
 dev.copy(png, "../Output/camvsgen.png")
 dev.off()
 
-plot(x,y1,type="l",col="red")
+plot(x,y1,type="l",col="red") #type l means that it is a line 
 lines(x,y2,col="green")
+
+#Subsetting data error rates
+aerror= subset= c(data$camerror== "0.1") #find values that contain the 0.1 cam error rate
+berror= subset= c(data$camerror== "0.01") #contain 0.01 camera error rate 
+cerror= subset= c(data$camerror== "0.001") #camera error rate of 0.001
+
+# firstline= data$camuniM[aerror], I was trying different things here so just ignore this
+# rando = data$numcamera[aerror]
+
+#Stationary sampling plot 
+plot(data$numcamera[aerror], data$camuniM[aerror],
+     main = "Stationary Sampling", #main is the main title
+     xlab= "Number of Stationary Samples",
+     ylab = "Unique Individuals",
+     type= "l", #type l for line chart
+     ylim = c(0,50), xlim= c(0,250))
+#lines allows me to add the two extra lines of error rates
+#adding the 0.01 camera error or berror first...
+lines(data$numcamera[berror], data$camuniM[berror],
+      lty = "dashed" #lty is line type except it is written differently in line function
+      )
+
+#now the 0.001 camera error rate...
+
+lines(data$numcamera[cerror], data$camuniM[cerror],
+      lty = "dotted")
+
+###
+

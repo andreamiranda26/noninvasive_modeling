@@ -107,37 +107,22 @@ dir.create(folder)
 data = read.table("../Output/outputsummary.csv", header=T, sep=",")
 write.table(data, paste("../Output/", folder, "/outputsummary.csv", sep=""), row.names=F, col.names=T, sep=",")
 
+
 ####PLOTS ###
 
 #call file in R
-#data = read.table("../Output/TEST1.csv", header=T, sep="") #this one was used as an example
+
 data = read.table("~/GitHub/noninvasive_modeling/Output/repsums.csv", header=T, sep=",") #this one I actually ran 
 
-#Stationary sampling 
-plot(-100, -100 , xlab="stationary samples loc", ylab="Unique Individual", xlim=c(0, max(data[,10])), ylim=c(0, max(data[,10])))
-cam     = data[,10] #the 7 is a rando # but its the column where cam records are
-gen     = data[,13] #same thing with rando 9 because IDK what column it is because it is not running the code and output
-for(i in unique(data[,1])){  #this allows each rep to be a dif line rather than the lines through it. DO THIS FOR ALL PLOTS
-  sub <- data[data[,1] == i,] #unique replicate
-  points(cam, gen, lwd=2)
-}
-abline(coef = c(0,1), col = "red")
-#points(cam, gen , xlab="camera", ylab="genetic", cex = 1, lty = 1, col="black", lwd=5)
-dev.copy(png, "../Output/camvsgen.png")
-dev.off()
+##Stationary Sampling##-------------
 
-plot(x,y1,type="l",col="red") #type l means that it is a line 
-lines(x,y2,col="green")
-
-#Subsetting data error rates
+#Subsetting camera error rates
 aerror= subset= c(data$camerror== "0.1") #find values that contain the 0.1 cam error rate
 berror= subset= c(data$camerror== "0.01") #contain 0.01 camera error rate 
 cerror= subset= c(data$camerror== "0.001") #camera error rate of 0.001
 
-# firstline= data$camuniM[aerror], I was trying different things here so just ignore this
-# rando = data$numcamera[aerror]
 
-#Stationary sampling plot 
+#Unique Indiv plot
 plot(data$numcamera[aerror], data$camuniM[aerror],
      main = "Stationary Sampling", #main is the main title
      xlab= "Number of Stationary Samples",
@@ -155,5 +140,79 @@ lines(data$numcamera[berror], data$camuniM[berror],
 lines(data$numcamera[cerror], data$camuniM[cerror],
       lty = "dotted")
 
-###
 
+#Recorded Indiv plot
+plot(data$numcamera[aerror], data$camercM[aerror],
+     main = "Stationary Sampling", #main is the main title
+     xlab= "Number of Stationary Samples",
+     ylab = "Recorded Individuals",
+     type= "l", #type l for line chart
+     ylim = c(0,1800), xlim= c(0,250))
+
+#lines allows me to add the two extra lines of error rates
+#adding the 0.01 camera error or berror first...
+
+lines(data$numcamera[berror], data$camercM[berror],
+      lty = "dashed" #lty is line type except it is written differently in line function
+)
+
+#now the 0.001 camera error rate...
+
+lines(data$numcamera[cerror], data$camercM[cerror],
+      lty = "dotted")
+
+
+###Moving Samples##---------------
+
+#Subsetting genetic error rates
+gaerror= subset= c(data$generror== "0.1") #find values that contain the 0.1 gen error rate
+gberror= subset= c(data$generror== "0.01") #gen 0.01 error rate 
+gcerror= subset= c(data$generror== "0.001") #gen error rate of 0.001
+
+#Unique Indiv Plot
+plot(data$numgen[gaerror], data$genuniM[gaerror],
+     main = "Moving Sampling", #main is the main title
+     xlab= "Number of Genetic Samples Collected",
+     ylab = "Unique Individuals",
+     type= "l", #type l for line chart
+     ylim = c(0,50), xlim= c(0,250))
+#lines allows me to add the two extra lines of error rates
+#adding the 0.01 genetic error or berror first...
+
+lines(data$numgen[gberror], data$genuniM[gberror],
+      lty = "dashed" #lty is line type except it is written differently in line function
+)
+
+#now the 0.001 genetic error rate...
+
+lines(data$numgen[gcerror], data$genuniM[gcerror],
+      lty = "dotted")
+
+#Recorded Indiv Plot
+plot(data$numgen[gaerror], data$genercM[gaerror],
+     main = "Moving Sampling", #main is the main title
+     xlab= "Number of Genetic Samples Collected",
+     ylab = "Unique Individuals",
+     type= "l", #type l for line chart
+     ylim = c(0,750), xlim= c(0,250))
+#lines allows me to add the two extra lines of error rates
+#adding the 0.01 genetic error or berror first...
+
+lines(data$numgen[gberror], data$genercM[gberror],
+      lty = "dashed" #lty is line type except it is written differently in line function
+)
+
+#now the 0.001 genetic error rate...
+
+lines(data$numgen[gcerror], data$genercM[gcerror],
+      lty = "dotted")
+
+
+##Moving VS Stationary Sampling##------------
+#at 0.1 error rate for both cam and gen 
+plot(data$camuniM[aerror], data$genuniM[gaerror],
+     main = "Moving vs Stationary Sampling at 0.1 Error", #main is the main title
+     xlab= "Camera Unique Individuals",
+     ylab = "Genetic Unique Individuals",
+     type= "l", #type l for line chart
+     ylim = c(0,50), xlim= c(0,50))

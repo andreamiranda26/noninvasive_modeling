@@ -127,3 +127,6 @@ dev.off()
 #call file in R
 data = read.table("../Output/TEST1.csv", header=T, sep="")
 data = read.table("../Output/outputsummary.csv", header=T, sep=",")
+
+# firstline= data$camuniM[aerror], I was trying different things here so just ignore this
+# rando = data$numcamera[aerror]

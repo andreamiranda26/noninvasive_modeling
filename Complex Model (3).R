@@ -130,12 +130,13 @@ plot(data$numcamera[aerror], data$camuniM[aerror],
      type= "l", #type l for line chart
      ylim = c(0,50), xlim= c(0,250))
 #lines allows me to add the two extra lines of error rates
+
 #adding the 0.01 camera error or berror first...
 lines(data$numcamera[berror], data$camuniM[berror],
       lty = "dashed" #lty is line type except it is written differently in line function
       )
 
-#now the 0.001 camera error rate...
+#now the 0.001 camera error rate or cerror...
 
 lines(data$numcamera[cerror], data$camuniM[cerror],
       lty = "dotted")
@@ -175,18 +176,21 @@ plot(data$numgen[gaerror], data$genuniM[gaerror],
      xlab= "Number of Genetic Samples Collected",
      ylab = "Unique Individuals",
      type= "l", #type l for line chart
+     col = "firebrick3" ,
      ylim = c(0,50), xlim= c(0,250))
+
 #lines allows me to add the two extra lines of error rates
 #adding the 0.01 genetic error or berror first...
 
 lines(data$numgen[gberror], data$genuniM[gberror],
-      lty = "dashed" #lty is line type except it is written differently in line function
-)
+      lty = "dotted" #lty is line type except it is written differently in line function
+, col= "darkorchid3")
 
 #now the 0.001 genetic error rate...
 
 lines(data$numgen[gcerror], data$genuniM[gcerror],
-      lty = "dotted")
+      lty = "dashed", col= "dodgerblue3")
+
 
 #Recorded Indiv Plot
 plot(data$numgen[gaerror], data$genercM[gaerror],
@@ -208,11 +212,36 @@ lines(data$numgen[gcerror], data$genercM[gcerror],
       lty = "dotted")
 
 
+
 ##Moving VS Stationary Sampling##------------
-#at 0.1 error rate for both cam and gen 
-plot(data$camuniM[aerror], data$genuniM[gaerror],
-     main = "Moving vs Stationary Sampling at 0.1 Error", #main is the main title
-     xlab= "Camera Unique Individuals",
-     ylab = "Genetic Unique Individuals",
-     type= "l", #type l for line chart
-     ylim = c(0,50), xlim= c(0,50))
+
+#at 0.1 error rate for both moving and stationary 
+#run regression checking if estimates follow 1:1, going through 0,0
+
+lm.out=lm(log(data$camuniM[aerror])~0+log(data$genuniM[gaerror]))
+summary(lm.out)
+
+plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+points(log(data$camuniM[aerror]), log(data$genuniM[gaerror]), pch=19, col="firebrick3")
+segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black")
+
+
+#at 0.01 error rate for both moving and stationary 
+
+lm.out=lm(log(data$camuniM[berror])~0+log(data$genuniM[gberror]))
+summary(lm.out)
+
+plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+points(log(data$camuniM[berror]), log(data$genuniM[gberror]), pch=19, col="dodgerblue3")
+segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black")
+
+
+#at 0.001 error rate for both moving and stationary 
+
+lm.out=lm(log(data$camuniM[cerror])~0+log(data$genuniM[gcerror]))
+summary(lm.out)
+
+plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+points(log(data$camuniM[cerror]), log(data$genuniM[gcerror]), pch=19, col="darkorchid3")
+segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black")
+

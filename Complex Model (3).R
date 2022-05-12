@@ -148,7 +148,7 @@ plot(data$numcamera[aerror], data$camercM[aerror],
      xlab= "Number of Stationary Samples",
      ylab = "Recorded Individuals",
      type= "l", #type l for line chart
-     ylim = c(0,1800), xlim= c(0,250))
+     ylim = c(0,1800), xlim= c(0,250)) #cam recorded had almost 1800 as the highest number
 
 #lines allows me to add the two extra lines of error rates
 #adding the 0.01 camera error or berror first...
@@ -176,7 +176,7 @@ plot(data$numgen[gaerror], data$genuniM[gaerror],
      xlab= "Number of Genetic Samples Collected",
      ylab = "Unique Individuals",
      type= "l", #type l for line chart
-     col = "firebrick3" ,
+     col = "firebrick3" , #i tried doing colors to better distinguish but dont think it made much better 
      ylim = c(0,50), xlim= c(0,250))
 
 #lines allows me to add the two extra lines of error rates
@@ -192,7 +192,8 @@ lines(data$numgen[gcerror], data$genuniM[gcerror],
       lty = "dashed", col= "dodgerblue3")
 
 
-#Recorded Indiv Plot
+#Recorded Individuals Plot
+
 plot(data$numgen[gaerror], data$genercM[gaerror],
      main = "Moving Sampling", #main is the main title
      xlab= "Number of Genetic Samples Collected",

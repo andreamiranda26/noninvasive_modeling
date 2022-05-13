@@ -222,7 +222,8 @@ lines(data$numgen[gcerror], data$genercM[gcerror],
 lm.out=lm(log(data$camuniM[aerror])~0+log(data$genuniM[gaerror]))
 summary(lm.out)
 confint(lm.out) #this came out to be +/- 0.135?
-plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+
+plot(-100,-100, main = "Moving VS Stationary (0.1 error rate)", xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
 points(log(data$camuniM[aerror]), log(data$genuniM[gaerror]), pch=19, col="firebrick3")
 segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black") #Im not sure if this is right I got it from the previous CH 1 code :/
 
@@ -233,7 +234,7 @@ lm.out=lm(log(data$camuniM[berror])~0+log(data$genuniM[gberror]))
 summary(lm.out)
 confint(lm.out) # ~ +/-0.13
 
-plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+plot(-100,-100, main = "Moving VS Stationary (0.01 error rate)", xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
 points(log(data$camuniM[berror]), log(data$genuniM[gberror]), pch=19, col="dodgerblue3")
 segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black")
 
@@ -244,7 +245,7 @@ lm.out=lm(log(data$camuniM[cerror])~0+log(data$genuniM[gcerror]))
 summary(lm.out)
 confint(lm.out) # ~ +/-0.13
 
-plot(-100,-100, xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
+plot(-100,-100, main = "Moving VS Stationary (0.001 error rate)", xlab="log(number of individuals), stationary sampling", ylab="log(number of individuals), moving sampling", xlim=c(0,6), ylim=c(0,6))
 points(log(data$camuniM[cerror]), log(data$genuniM[gcerror]), pch=19, col="darkorchid3")
 segments(x0=0,y0=0, x1=6,y1=(lm.out$coefficients[1]*6), lwd=2, col="black")
 

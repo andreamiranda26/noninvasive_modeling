@@ -1,8 +1,6 @@
 #Set working directory and source functions
 #setwd("~/GitHub/ABM-Course/Source")    # set temp working directory 
-#setwd("~/Desktop/ABM-Course-main/Source")
-setwd("~/GitHub/noninvasive_modeling/Source")
-
+setwd("/Users/jannawilloughby/GDrive/Willoughby lab/furbearer abundance /noninvasive_modeling/Source/")
 
 #source model functions
 source(paste(getwd(), "/Landscape.R", sep = ''))
@@ -12,4 +10,3 @@ source(paste(getwd(), "/Camera.R", sep = ''))
 source(paste(getwd(), "/Genetics.R", sep = ''))
 source(paste(getwd(), "/Tracking.R", sep = ''))
 source(paste(getwd(), "/Collection.R", sep = ''))
-

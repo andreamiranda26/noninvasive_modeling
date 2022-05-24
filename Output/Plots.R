@@ -103,32 +103,64 @@ for(e in 1:length(camerror) ){
 
 ####question 4: does movement capacity of target/vector organism make either stationary or moving sampling approaches more effective?
 #call file in R (for questions 4-5)
-data = read.table("Output/output_2022-05-2315:21:09/repsums.csv", header=T, sep=",")
+data = read.table("Output/output_2022-05-2316:05:58/repsums.csv", header=T, sep=",")
 
-tdata = data
+tdata = data[data$numindiv==100,]
 colors2   = c("darkorchid3", "firebrick3")
-linetypes = c(1,2,3)
 
 #create plot outline
-plot(-100,-100, xlim=c(0,max(c(data$numcamera,numgen))), ylim=c(0,53), xlab="number sampling events", ylab="unique individuals detected")
-abline(h=50, lty=2, col="grey50")
+plot(-100,-100, xlim=c(0,max(tdata$numsteps)), ylim=c(0,103), xlab="number of movement steps (days)", ylab="unique individuals detected")
+abline(h=100, lty=2, col="grey50")
 
 #add error bars for each group
-for(e in 1:length(camerror) ){
-  ttdata = tdata[tdata$camerror==camerror[e],]
-  for(r in 1:nrow(ttdata)){
-    segments(x0=ttdata$numcamera[r], x1=ttdata$numcamera[r], y0=ttdata$camuniL[r], y1=ttdata$camuniU[r], col=colors2[1])
-    segments(x0=ttdata$numcamera[r], x1=ttdata$numcamera[r], y0=ttdata$camuniL[r], y1=ttdata$camuniU[r], col=colors2[1])
-    segments(x0=ttdata$numcamera[r]-2, x1=ttdata$numcamera[r]+2, y0=ttdata$camuniL[r], y1=ttdata$camuniL[r], col=colors2[1])
-    segments(x0=ttdata$numcamera[r]-2, x1=ttdata$numcamera[r]+2, y0=ttdata$camuniU[r], y1=ttdata$camuniU[r], col=colors2[1])
-    
-    segments(x0=ttdata$numgen[r], x1=ttdata$numgen[r], y0=ttdata$genuniL[r], y1=ttdata$genuni[r], col=colors2[2])
-    segments(x0=ttdata$numgen[r], x1=ttdata$numgen[r], y0=ttdata$genuniL[r], y1=ttdata$genuni[r], col=colors2[2])
-    segments(x0=ttdata$numgen[r]-2, x1=ttdata$numgen[r]+2, y0=ttdata$genuniL[r], y1=ttdata$genuniL[r], col=colors2[2])
-    segments(x0=ttdata$numgen[r]-2, x1=ttdata$numgen[r]+2, y0=ttdata$genuni[r], y1=ttdata$genuni[r], col=colors2[2])
-  }
-  lines(x=ttdata$numcamera, y=ttdata$camuniM, lwd=1.5, col=alpha(colors2[1], 0.8), lty=linetypes[e])
-  lines(x=ttdata$numgen,    y=ttdata$genuniM, lwd=1.5, col=alpha(colors2[2], 0.8), lty=linetypes[e])
-  points(x=ttdata$numcamera, y=ttdata$camuniM, pch=19, col=alpha(colors2[1], 0.5))
-  points(x=ttdata$numgen,    y=ttdata$genuniM, pch=19, col=alpha(colors2[2], 0.5))
+for(r in 1:nrow(tdata)){
+  segments(x0=tdata$numsteps[r], x1=tdata$numsteps[r], y0=tdata$camuniL[r], y1=tdata$camuniU[r], col=colors2[1])
+  segments(x0=tdata$numsteps[r], x1=tdata$numsteps[r], y0=tdata$camuniL[r], y1=tdata$camuniU[r], col=colors2[1])
+  segments(x0=tdata$numsteps[r]-2, x1=tdata$numsteps[r]+2, y0=tdata$camuniL[r], y1=tdata$camuniL[r], col=colors2[1])
+  segments(x0=tdata$numsteps[r]-2, x1=tdata$numsteps[r]+2, y0=tdata$camuniU[r], y1=tdata$camuniU[r], col=colors2[1])
+  
+  segments(x0=tdata$numsteps[r], x1=tdata$numsteps[r], y0=tdata$genuniL[r], y1=tdata$genuni[r], col=colors2[2])
+  segments(x0=tdata$numsteps[r], x1=tdata$numsteps[r], y0=tdata$genuniL[r], y1=tdata$genuni[r], col=colors2[2])
+  segments(x0=tdata$numsteps[r]-2, x1=tdata$numsteps[r]+2, y0=tdata$genuniL[r], y1=tdata$genuniL[r], col=colors2[2])
+  segments(x0=tdata$numsteps[r]-2, x1=tdata$numsteps[r]+2, y0=tdata$genuni[r], y1=tdata$genuni[r], col=colors2[2])
 }
+lines(x=tdata$numsteps, y=tdata$camuniM, lwd=1.5, col=alpha(colors2[1], 0.8))
+lines(x=tdata$numsteps,    y=tdata$genuniM, lwd=1.5, col=alpha(colors2[2], 0.8))
+points(x=tdata$numsteps, y=tdata$camuniM, pch=19, col=alpha(colors2[1], 0.5))
+points(x=tdata$numsteps,    y=tdata$genuniM, pch=19, col=alpha(colors2[2], 0.5))
+
+#answer4: both methods are equal across number of sampling days/movement capacity
+
+####question 5: does the number of individuals/vectors/disease agents in a system make either stationary or moving sampling approaches more effective?
+#call file in R (for questions 4-5)
+
+tdata = data[data$numsteps==100,]
+colors2   = c("darkorchid3", "firebrick3")
+
+#create plot outline
+plot(-100,-100, xlim=c(0,max(tdata$numindiv)), ylim=c(0,103), xlab="number of agents", ylab="unique individuals detected")
+abline(h=100, lty=2, col="grey50")
+abline(h=50, lty=2, col="grey50")
+abline(h=20, lty=2, col="grey50")
+
+#add error bars for each group
+for(r in 1:nrow(tdata)){
+  segments(x0=tdata$numindiv[r], x1=tdata$numindiv[r], y0=tdata$camuniL[r], y1=tdata$camuniU[r], col=colors2[1])
+  segments(x0=tdata$numindiv[r], x1=tdata$numindiv[r], y0=tdata$camuniL[r], y1=tdata$camuniU[r], col=colors2[1])
+  segments(x0=tdata$numindiv[r]-2, x1=tdata$numindiv[r]+2, y0=tdata$camuniL[r], y1=tdata$camuniL[r], col=colors2[1])
+  segments(x0=tdata$numindiv[r]-2, x1=tdata$numindiv[r]+2, y0=tdata$camuniU[r], y1=tdata$camuniU[r], col=colors2[1])
+  
+  segments(x0=tdata$numindiv[r], x1=tdata$numindiv[r], y0=tdata$genuniL[r], y1=tdata$genuni[r], col=colors2[2])
+  segments(x0=tdata$numindiv[r], x1=tdata$numindiv[r], y0=tdata$genuniL[r], y1=tdata$genuni[r], col=colors2[2])
+  segments(x0=tdata$numindiv[r]-2, x1=tdata$numindiv[r]+2, y0=tdata$genuniL[r], y1=tdata$genuniL[r], col=colors2[2])
+  segments(x0=tdata$numindiv[r]-2, x1=tdata$numindiv[r]+2, y0=tdata$genuni[r], y1=tdata$genuni[r], col=colors2[2])
+}
+lines(x=tdata$numindiv, y=tdata$camuniM, lwd=1.5, col=alpha(colors2[1], 0.8))
+lines(x=tdata$numindiv,    y=tdata$genuniM, lwd=1.5, col=alpha(colors2[2], 0.8))
+points(x=tdata$numindiv, y=tdata$camuniM, pch=19, col=alpha(colors2[1], 0.5))
+points(x=tdata$numindiv,    y=tdata$genuniM, pch=19, col=alpha(colors2[2], 0.5))
+
+#answer5: both methods are equal, with overlapping 95%CIs
+
+
+
